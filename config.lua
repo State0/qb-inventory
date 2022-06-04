@@ -17,7 +17,7 @@ Config.CraftingObject = `prop_toolchest_05`
 Config.VendingItem = {
     [1] = {
         name = "kurkakola",
-        price = 4,
+        price = 25,
         amount = 50,
         info = {},
         type = "item",
@@ -25,12 +25,36 @@ Config.VendingItem = {
     },
     [2] = {
         name = "water_bottle",
-        price = 4,
+        price = 25,
         amount = 50,
         info = {},
         type = "item",
         slot = 2,
     },
+    [3] = {
+        name = "zeroade",
+        price = 250,
+        amount = 50,
+        info = {},
+        type = "item",
+        slot = 3,
+    },
+    [4] = {
+        name = "snikkel_candy",
+        price = 10,
+        amount = 50,
+        info = {},
+        type = "item",
+        slot = 4,
+    },
+    -- [2] = {
+    --     name = "water_bottle",
+    --     price = 25,
+    --     amount = 50,
+    --     info = {},
+    --     type = "item",
+    --     slot = 2,
+    -- },
 }
 
 Config.CraftingItems = {
@@ -39,8 +63,8 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["metalscrap"] = 22,
-            ["plastic"] = 32,
+            ["metalscrap"] = 10,
+            ["plastic"] = 10,
         },
         type = "item",
         slot = 1,
@@ -52,8 +76,8 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["metalscrap"] = 30,
-            ["plastic"] = 42,
+            ["metalscrap"] = 41,
+            ["plastic"] = 58,
         },
         type = "item",
         slot = 2,
@@ -65,9 +89,9 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["metalscrap"] = 30,
-            ["plastic"] = 45,
-            ["aluminum"] = 28,
+            ["metalscrap"] = 75,
+            ["plastic"] = 110,
+            ["aluminum"] = 90,
         },
         type = "item",
         slot = 3,
@@ -79,9 +103,9 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["electronickit"] = 2,
-            ["plastic"] = 52,
-            ["steel"] = 40,
+            ["electronickit"] = 1,
+            ["plastic"] = 30,
+            ["steel"] = 100,
         },
         type = "item",
         slot = 4,
@@ -93,11 +117,11 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["metalscrap"] = 10,
-            ["plastic"] = 50,
-            ["aluminum"] = 30,
-            ["iron"] = 17,
-            ["electronickit"] = 2,
+            ["metalscrap"] = 16,
+            ["plastic"] = 83,
+            ["aluminum"] = 50,
+            ["iron"] = 28,
+            ["electronickit"] = 1,
         },
         type = "item",
         slot = 5,
@@ -109,9 +133,9 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["metalscrap"] = 36,
-            ["steel"] = 24,
-            ["aluminum"] = 28,
+            ["metalscrap"] = 220,
+            ["steel"] = 220,
+            ["aluminum"] = 222,
         },
         type = "item",
         slot = 6,
@@ -138,8 +162,8 @@ Config.CraftingItems = {
         info = {},
         costs = {
             ["metalscrap"] = 50,
-            ["steel"] = 37,
-            ["copper"] = 26,
+            ["steel"] = 61,
+            ["copper"] = 43,
         },
         type = "item",
         slot = 8,
@@ -151,8 +175,8 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["iron"] = 60,
-            ["glass"] = 30,
+            ["iron"] = 100,
+            ["glass"] = 66,
         },
         type = "item",
         slot = 9,
@@ -164,44 +188,449 @@ Config.CraftingItems = {
         amount = 50,
         info = {},
         costs = {
-            ["aluminum"] = 60,
-            ["glass"] = 30,
+            ["aluminum"] = 100,
+            ["glass"] = 66,
         },
         type = "item",
         slot = 10,
         threshold = 300,
         points = 10,
     },
+    -- [11] = {
+    --     name = "armor",
+    --     amount = 50,
+    --     info = {},
+    --     costs = {
+    --         ["iron"] = 13,
+    --         ["steel"] = 19,
+    --         ["plastic"] = 15,
+    --         ["aluminum"] = 11,
+    --     },
+    --     type = "item",
+    --     slot = 11,
+    --     threshold = 350,
+    --     points = 11,
+    -- },
     [11] = {
-        name = "armor",
-        amount = 50,
-        info = {},
-        costs = {
-            ["iron"] = 33,
-            ["steel"] = 44,
-            ["plastic"] = 55,
-            ["aluminum"] = 22,
-        },
-        type = "item",
-        slot = 11,
-        threshold = 350,
-        points = 11,
-    },
-    [12] = {
         name = "drill",
         amount = 50,
         info = {},
         costs = {
-            ["iron"] = 50,
-            ["steel"] = 50,
-            ["screwdriverset"] = 3,
-            ["advancedlockpick"] = 2,
+            ["iron"] = 25,
+            ["steel"] = 25,
+            ["screwdriverset"] = 1,
+            ["advancedlockpick"] = 1,
         },
         type = "item",
-        slot = 12,
+        slot = 11,
         threshold = 1750,
         points = 12,
     },
+}
+
+Config.FoodCraftingLocation = vector3(-1197.98, -899.1, 13.98)
+
+Config.CraftingFood = {
+    ["items"] = {
+        [1] = {
+            name = "superwich",
+            amount = 50,
+            info = {},
+            costs = {
+                ["burger-meat"] = 1,
+                ["burger-bun"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+        [2] = {
+            name = "ksandwich",
+            amount = 100,
+            info = {},
+            costs = {
+                ["burger-bun"] = 2,
+                ["hasenrücken"] = 2,
+                ["lettuce"] = 2,
+            },
+            type = "item",
+            slot = 2,
+            threshold = 0,
+            points = 1,
+        },
+        [3] = {
+            name = "bnuggets",
+            amount = 100,
+            info = {},
+            costs = {
+                ["rehrücken"] = 2,
+            },
+            type = "item",
+            slot = 3,
+            threshold = 0,
+            points = 1,
+        },
+        [4] = {
+            name = "pburger",
+            amount = 100,
+            info = {},
+            costs = {
+                ["burger-bun"] = 2,
+                ["filetsteak"] = 2,
+                ["lettuce"] = 2,
+            },
+            type = "item",
+            slot = 4,
+            threshold = 0,
+            points = 1,
+        },
+        [5] = {
+            name = "twings",
+            amount = 100,
+            info = {},
+            costs = {
+                ["taubenfleisch"] = 2,
+            },
+            type = "item",
+            slot = 5,
+            threshold = 0,
+            points = 1,
+        },
+        [6] = {
+            name = "rtaco",
+            amount = 100,
+            info = {},
+            costs = {
+                ["meat"] = 2,
+                ["shell"] = 2,
+                ["lettuce"] = 2,
+            },
+            type = "item",
+            slot = 6,
+            threshold = 0,
+            points = 1,
+        },
+        [7] = {
+            name = "meat",
+            amount = 100,
+            info = {},
+            costs = {
+                ["gebirgslöwenfilet"] = 2,
+            },
+            type = "item",
+            slot = 7,
+            threshold = 0,
+            points = 1,
+        },
+        [8] = {
+            name = "burger-meat",
+            amount = 100,
+            info = {},
+            costs = {
+                ["meatpig"] = 2,
+            },
+            type = "item",
+            slot = 8,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.WeedCuttingLocation = vector3(1950.63, 4652.48, 40.59)
+
+Config.WeedCutting = {
+    ["items"] = {
+        [1] = {
+            name = "weed_zero-haze_leaves",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["weed_zero-haze_plant"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.WeedDryingLocation = vector3(259.73, 2584.9, 44.95)
+
+Config.WeedDrying = {
+    ["items"] = {
+        [1] = {
+            name = "weed_zero-haze_dried_leaves",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["weed_zero-haze_leaves"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.WeedPackingLocation = vector3(657.96, -1023.15, 22.72)
+
+Config.WeedPacking = {
+    ["items"] = {
+        [1] = {
+            name = "weed_zero-haze",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["weed_zero-haze_dried_leaves"] = 1,
+                ["empty_weed_bag"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.WeedRollingLocation = vector3(-1089.64, -1666.03, 4.7)
+
+Config.WeedRolling = {
+    ["items"] = {
+        [1] = {
+            name = "joint",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["weed_zero-haze"] = 1,
+                ["rolling_paper"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.PizzaBackingLocation = vector3(419.49, -1502.07, 30.16)
+
+Config.PizzaBacking = {
+    ["items"] = {
+        [1] = {
+            name = "pizza_salieri",
+            amount = 50,
+            info = {},
+            costs = {
+                ["salami"] = 5,
+                ["cheese"] = 5,
+                ["sauce"] = 2,
+                ["dough"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+        -- [2] = {
+        --     name = "triamisu",
+        --     amount = 50,
+        --     info = {},
+        --     costs = {
+        --         ["mascarpone"] = 1,
+        --         ["kaffeepulver"] = 1,
+        --         ["rum"] = 1,
+        --     },
+        --     type = "item",
+        --     slot = 2,
+        --     threshold = 0,
+        --     points = 1,
+        -- },
+        [2] = {
+            name = "lasagne",
+            amount = 50,
+            info = {},
+            costs = {
+                ["nudelplatten"] = 6,
+                ["hackfleisch"] = 6,
+                ["cheese"] = 6,
+            },
+            type = "item",
+            slot = 2,
+            threshold = 0,
+            points = 1,
+        },
+        [3] = {
+            name = "mozzarellastick",
+            amount = 50,
+            info = {},
+            costs = {
+                ["mozza"] = 3,
+                ["paniermehl"] = 3,
+            },
+            type = "item",
+            slot = 3,
+            threshold = 0,
+            points = 1,
+        },
+        [4] = {
+            name = "bruschetta",
+            amount = 50,
+            info = {},
+            costs = {
+                ["tomate"] = 1,
+                ["baguette"] = 1,
+                ["knoblauch"] = 1,
+            },
+            type = "item",
+            slot = 4,
+            threshold = 0,
+            points = 1,
+        },
+        [5] = {
+            name = "spaghettibolo",
+            amount = 50,
+            info = {},
+            costs = {
+                ["spaghetti"] = 5,
+                ["hackfleisch"] = 3,
+                ["sauce"] = 3,
+            },
+            type = "item",
+            slot = 5,
+            threshold = 0,
+            points = 1,
+        },
+        [6] = {
+            name = "spaghettiaglio",
+            amount = 50,
+            info = {},
+            costs = {
+                ["spaghetti"] = 5,
+                ["speiseöl"] = 3,
+                ["knoblauch"] = 3,
+            },
+            type = "item",
+            slot = 6,
+            threshold = 0,
+            points = 1,
+        },
+        [7] = {
+            name = "gelato",
+            amount = 50,
+            info = {},
+            costs = {
+                ["zucker"] = 2,
+                ["eier"] = 2,
+                ["milch"] = 2,
+            },
+            type = "item",
+            slot = 7,
+            threshold = 0,
+            points = 1,
+        },
+        -- [8] = {
+        --     name = "saltimbocca",
+        --     amount = 50,
+        --     info = {},
+        --     costs = {
+        --         ["salbei"] = 10,
+        --         ["kalbsfleisch"] = 10,
+        --         ["schinken"] = 10,
+        --         ["kreuter"] = 10,
+        --     },
+        --     type = "item",
+        --     slot = 8,
+        --     threshold = 0,
+        --     points = 1,
+        -- },
+        -- [9] = {
+        --     name = "tiramisu",
+        --     amount = 50,
+        --     info = {},
+        --     costs = {
+        --         ["mascarpone"] = 1,
+        --         ["kaffeepulver"] = 1,
+        --         ["rum"] = 1,
+        --     },
+        --     type = "item",
+        --     slot = 9,
+        --     threshold = 0,
+        --     points = 1,
+        -- },
+    }
+}
+
+Config.GoldBroilerLocation = vector3(1248.19, -349.6, 69.21)
+
+Config.GoldBroiler = {
+    ["items"] = {
+        [1] = {
+            name = "broiler",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["haehnchen"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+        [2] = {
+            name = "broilerpomme",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["kartoffel"] = 2,
+            },
+            type = "item",
+            slot = 2,
+            threshold = 0,
+            points = 1,
+        },
+        [3] = {
+            name = "broilernuggets",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["haehnchen"] = 1,
+            },
+            type = "item",
+            slot = 3,
+            threshold = 0,
+            points = 1,
+        },
+        [4] = {
+            name = "broilermenu",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["broiler"] = 1,
+                ["broilernuggets"] = 1,
+                ["lettuce"] = 2,
+            },
+            type = "item",
+            slot = 4,
+            threshold = 0,
+            points = 1,
+        },
+        [5] = {
+            name = "broilersalat",
+            amount = 2000,
+            info = {},
+            costs = {
+                ["lettuce"] = 2,
+            },
+            type = "item",
+            slot = 5,
+            threshold = 0,
+            points = 1,
+        },
+    }
 }
 
 Config.AttachmentCraftingLocation = vector3(88.91, 3743.88, 40.77)

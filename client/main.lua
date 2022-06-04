@@ -61,11 +61,11 @@ local function FormatWeaponAttachments(itemdata)
     local attachments = {}
     itemdata.name = itemdata.name:upper()
     if itemdata.info.attachments ~= nil and next(itemdata.info.attachments) ~= nil then
-        for _, v in pairs(itemdata.info.attachments) do
+        for k, v in pairs(itemdata.info.attachments) do
             if WeaponAttachments[itemdata.name] ~= nil then
                 for key, value in pairs(WeaponAttachments[itemdata.name]) do
                     if value.component == v.component then
-                        local item = value.item
+                        item = value.item
                         attachments[#attachments+1] = {
                             attachment = key,
                             label = QBCore.Shared.Items[item].label
@@ -171,7 +171,7 @@ local function ItemsToItemInfo()
 	}
 
 	local items = {}
-	for _, item in pairs(Config.CraftingItems) do
+	for k, item in pairs(Config.CraftingItems) do
 		local itemInfo = QBCore.Shared.Items[item.name:lower()]
 		items[item.slot] = {
 			name = itemInfo["name"],
@@ -193,6 +193,221 @@ local function ItemsToItemInfo()
 	Config.CraftingItems = items
 end
 
+local function ItemsToFoodInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["burger-meat"]["label"] .. ": 1x, " ..QBCore.Shared.Items["burger-bun"]["label"] .. ": 1x. "},
+		[2] = {costs = QBCore.Shared.Items["burger-bun"]["label"] .. ": 2x, " ..QBCore.Shared.Items["lettuce"]["label"] .. ": 2x, " ..QBCore.Shared.Items["hasenrücken"]["label"] .. ": 2x. "},
+        [3] = {costs = QBCore.Shared.Items["rehrücken"]["label"] .. ": 2x. "},
+        [4] = {costs = QBCore.Shared.Items["burger-bun"]["label"] .. ": 2x, " ..QBCore.Shared.Items["filetsteak"]["label"] .. ": 2x, " ..QBCore.Shared.Items["lettuce"]["label"] .. ": 2x. "},
+        [5] = {costs = QBCore.Shared.Items["taubenfleisch"]["label"] .. ": 2x. "},
+        [6] = {costs = QBCore.Shared.Items["meat"]["label"] .. ": 2x, " ..QBCore.Shared.Items["shell"]["label"] .. ": 2x, " ..QBCore.Shared.Items["lettuce"]["label"] .. ": 2x. "},
+        [7] = {costs = QBCore.Shared.Items["gebirgslöwenfilet"]["label"] .. ": 2x. "},
+        [8] = {costs = QBCore.Shared.Items["meatpig"]["label"] .. ": 2x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.CraftingFood["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.CraftingFood["items"] = items
+end
+
+local function ItemsToCutInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["weed_zero-haze_plant"]["label"] .. ": 1x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.WeedCutting["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.WeedCutting["items"] = items
+end
+
+local function ItemsToDryInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["weed_zero-haze_leaves"]["label"] .. ": 1x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.WeedDrying["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.WeedDrying["items"] = items
+end
+
+local function ItemsToPackInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["weed_zero-haze_dried_leaves"]["label"] .. ": 1x, " ..QBCore.Shared.Items["empty_weed_bag"]["label"] .. ": 1x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.WeedPacking["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.WeedPacking["items"] = items
+end
+
+local function ItemsToRollInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["weed_zero-haze"]["label"] .. ": 1x, " ..QBCore.Shared.Items["rolling_paper"]["label"] .. ": 1x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.WeedRolling["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.WeedRolling["items"] = items
+end
+
+local function ItemsToBackInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["salami"]["label"] .. ": 5x, " ..QBCore.Shared.Items["cheese"]["label"] .. ": 5x, " ..QBCore.Shared.Items["sauce"]["label"] .. ": 2x, " ..QBCore.Shared.Items["dough"]["label"] .. ": 1x. "},
+		-- [2] = {costs = QBCore.Shared.Items["mascarpone"]["label"] .. ": 1x, " ..QBCore.Shared.Items["kaffeepulver"]["label"] .. ": 1x, " ..QBCore.Shared.Items["rum"]["label"] .. ": 1x. "},
+		[2] = {costs = QBCore.Shared.Items["nudelplatten"]["label"] .. ": 6x, " ..QBCore.Shared.Items["hackfleisch"]["label"] .. ": 6x, " ..QBCore.Shared.Items["cheese"]["label"] .. ": 6x. "},
+		[3] = {costs = QBCore.Shared.Items["mozza"]["label"] .. ": 3x, " ..QBCore.Shared.Items["paniermehl"]["label"] .. ": 3x. "},
+		[4] = {costs = QBCore.Shared.Items["tomate"]["label"] .. ": 1x, " ..QBCore.Shared.Items["baguette"]["label"] .. ": 1x, " ..QBCore.Shared.Items["knoblauch"]["label"] .. ": 1x. "},
+		[5] = {costs = QBCore.Shared.Items["spaghetti"]["label"] .. ": 5x, " ..QBCore.Shared.Items["hackfleisch"]["label"] .. ": 3x, " ..QBCore.Shared.Items["sauce"]["label"] .. ": 3x. "},
+		[6] = {costs = QBCore.Shared.Items["spaghetti"]["label"] .. ": 5x, " ..QBCore.Shared.Items["speiseöl"]["label"] .. ": 3x, " ..QBCore.Shared.Items["knoblauch"]["label"] .. ": 3x. "},
+		[7] = {costs = QBCore.Shared.Items["zucker"]["label"] .. ": 2x, " ..QBCore.Shared.Items["eier"]["label"] .. ": 2x, " ..QBCore.Shared.Items["milch"]["label"] .. ": 2x. "},
+		-- [9] = {costs = QBCore.Shared.Items["salbei"]["label"] .. ": 10x, " ..QBCore.Shared.Items["kalbsfleisch"]["label"] .. ": 10x, " ..QBCore.Shared.Items["schinken"]["label"] .. ": 10x, " ..QBCore.Shared.Items["kreuter"]["label"] .. ": 10x. "},
+    }
+
+	local items = {}
+	for k, item in pairs(Config.PizzaBacking["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.PizzaBacking["items"] = items
+end
+
+local function ItemsBroilerInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["haehnchen"]["label"] .. ": 1x. "},
+		[2] = {costs = QBCore.Shared.Items["kartoffel"]["label"] .. ": 2x. "},
+		[3] = {costs = QBCore.Shared.Items["haehnchen"]["label"] .. ": 1x. "},
+		[4] = {costs = QBCore.Shared.Items["broiler"]["label"] .. ": 1x, " ..QBCore.Shared.Items["broilernuggets"]["label"] .. ": 1x, " ..QBCore.Shared.Items["lettuce"]["label"] .. ": 2x. "},
+		[5] = {costs = QBCore.Shared.Items["lettuce"]["label"] .. ": 2x. "},
+	}
+
+	local items = {}
+	for k, item in pairs(Config.GoldBroiler["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.GoldBroiler["items"] = items
+end
+
 local function SetupAttachmentItemsInfo()
 	itemInfos = {
 		[1] = {costs = QBCore.Shared.Items["metalscrap"]["label"] .. ": 140x, " .. QBCore.Shared.Items["steel"]["label"] .. ": 250x, " .. QBCore.Shared.Items["rubber"]["label"] .. ": 60x"},
@@ -206,7 +421,7 @@ local function SetupAttachmentItemsInfo()
 	}
 
 	local items = {}
-	for _, item in pairs(Config.AttachmentCrafting["items"]) do
+	for k, item in pairs(Config.AttachmentCrafting["items"]) do
 		local itemInfo = QBCore.Shared.Items[item.name:lower()]
 		items[item.slot] = {
 			name = itemInfo["name"],
@@ -230,7 +445,7 @@ end
 local function GetThresholdItems()
 	ItemsToItemInfo()
 	local items = {}
-	for k, _ in pairs(Config.CraftingItems) do
+	for k, item in pairs(Config.CraftingItems) do
 		if PlayerData.metadata["craftingrep"] >= Config.CraftingItems[k].threshold then
 			items[k] = Config.CraftingItems[k]
 		end
@@ -238,10 +453,99 @@ local function GetThresholdItems()
 	return items
 end
 
+local function GetThresholdItems()
+	ItemsToItemInfo()
+	local items = {}
+	for k, item in pairs(Config.CraftingItems) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.CraftingItems[k].threshold then
+			items[k] = Config.CraftingItems[k]
+		end
+	end
+	return items
+end
+
+local function GetFoodThresholdItems()
+	ItemsToFoodInfo()
+	local items = {}
+	for k, item in pairs(Config.CraftingFood["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.CraftingFood["items"][k].threshold then
+			items[k] = Config.CraftingFood["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetCutThresholdItems()
+	ItemsToCutInfo()
+	local items = {}
+	for k, item in pairs(Config.WeedCutting["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.WeedCutting["items"][k].threshold then
+			items[k] = Config.WeedCutting["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetDryThresholdItems()
+	ItemsToDryInfo()
+	local items = {}
+	for k, item in pairs(Config.WeedDrying["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.WeedDrying["items"][k].threshold then
+			items[k] = Config.WeedDrying["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetPackThresholdItems()
+	ItemsToPackInfo()
+	local items = {}
+	for k, item in pairs(Config.WeedPacking["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.WeedPacking["items"][k].threshold then
+			items[k] = Config.WeedPacking["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetRollThresholdItems()
+	ItemsToRollInfo()
+	local items = {}
+	for k, item in pairs(Config.WeedRolling["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.WeedRolling["items"][k].threshold then
+			items[k] = Config.WeedRolling["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetBackThresholdItems()
+	ItemsToBackInfo()
+	local items = {}
+	for k, item in pairs(Config.PizzaBacking["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.PizzaBacking["items"][k].threshold then
+			items[k] = Config.PizzaBacking["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetBroilerThresholdItems()
+	ItemsBroilerInfo()
+	local items = {}
+	for k, item in pairs(Config.GoldBroiler["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.GoldBroiler["items"][k].threshold then
+			items[k] = Config.GoldBroiler["items"][k]
+		end
+	end
+	return items
+end
+
+
 local function GetAttachmentThresholdItems()
 	SetupAttachmentItemsInfo()
 	local items = {}
-	for k, _ in pairs(Config.AttachmentCrafting["items"]) do
+	for k, item in pairs(Config.AttachmentCrafting["items"]) do
 		if PlayerData.metadata["attachmentcraftingrep"] >= Config.AttachmentCrafting["items"][k].threshold then
 			items[k] = Config.AttachmentCrafting["items"][k]
 		end
@@ -290,7 +594,7 @@ RegisterNetEvent('inventory:client:CheckOpenState', function(type, id, label)
     end
 end)
 
-RegisterNetEvent('weapons:client:SetCurrentWeapon', function(data, _)
+RegisterNetEvent('weapons:client:SetCurrentWeapon', function(data, bool)
     CurrentWeaponData = data or {}
 end)
 
@@ -305,7 +609,7 @@ end)
 RegisterNetEvent('inventory:client:requiredItems', function(items, bool)
     local itemTable = {}
     if bool then
-        for k, _ in pairs(items) do
+        for k, v in pairs(items) do
             itemTable[#itemTable+1] = {
                 item = items[k].name,
                 label = QBCore.Shared.Items[items[k].name]["label"],
@@ -385,6 +689,196 @@ RegisterNetEvent('inventory:client:CraftItems', function(itemName, itemCosts, am
 	end)
 end)
 
+RegisterNetEvent('inventory:client:CraftFood', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Crafting..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:CraftFood", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:CutWeed', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Schneiden..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:CutWeed", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:DryWeed', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Trocknen..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:DryWeed", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:PackWeed', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Abpacken..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:PackWeed", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:RollWeed', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Drehen..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:RollWeed", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:BackePizza', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Backe..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:BackePizza", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:GoldBroiler', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Brate..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:GoldBroiler", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+
 RegisterNetEvent('inventory:client:CraftAttachment', function(itemName, itemCosts, amount, toSlot, points)
     local ped = PlayerPedId()
     SendNUIMessage({
@@ -461,13 +955,10 @@ RegisterNetEvent('inventory:client:UseWeapon', function(weaponData, shootbool)
         currentWeapon = weaponName
     else
         TriggerEvent('weapons:client:SetCurrentWeapon', weaponData, shootbool)
-        QBCore.Functions.TriggerCallback("weapon:server:GetWeaponAmmo", function(result, name)
+        QBCore.Functions.TriggerCallback("weapon:server:GetWeaponAmmo", function(result)
             local ammo = tonumber(result)
             if weaponName == "weapon_petrolcan" or weaponName == "weapon_fireextinguisher" then
                 ammo = 4000
-            end
-	    if name ~= weaponName then
-                ammo = 0
             end
             GiveWeaponToPed(ped, GetHashKey(weaponName), 0, false, false)
             SetPedAmmo(ped, GetHashKey(weaponName), ammo)
@@ -539,8 +1030,7 @@ RegisterCommand('inventory', function()
         if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
             local ped = PlayerPedId()
             local curVeh = nil
-            local VendingMachine = nil
-            if not Config.UseTarget then VendingMachine = GetClosestVending() end
+            if not Config.UseTarget then VendingMachine = GetClosestVending() or CaampFire end
 
             if IsPedInAnyVehicle(ped) then -- Is Player In Vehicle
                 local vehicle = GetVehiclePedIsIn(ped, false)
@@ -574,8 +1064,8 @@ RegisterCommand('inventory', function()
 
             if CurrentVehicle then -- Trunk
                 local vehicleClass = GetVehicleClass(curVeh)
-                local maxweight
-                local slots
+                local maxweight = 0
+                local slots = 0
                 if vehicleClass == 0 then
                     maxweight = 38000
                     slots = 30
@@ -622,8 +1112,8 @@ RegisterCommand('inventory', function()
                     maxweight = 120000
                     slots = 50
                 else
-                    maxweight = 60000
-                    slots = 35
+                    maxweight = 360000
+                    slots = 50
                 end
                 local other = {
                     maxweight = maxweight,
@@ -677,7 +1167,7 @@ RegisterNetEvent('qb-inventory:client:giveAnim', function()
 	TaskPlayAnim(PlayerPedId(), 'mp_common', 'givetake1_b', 8.0, 1.0, -1, 16, 0, 0, 0, 0)
 end)
 
-RegisterNetEvent('inventory:client:craftTarget',function()
+RegisterNetEvent('inventory:client:craftTarget',function(data)
     local crafting = {}
     crafting.label = "Crafting"
     crafting.items = GetThresholdItems()
@@ -686,20 +1176,18 @@ end)
 
 -- NUI
 
-RegisterNUICallback('RobMoney', function(data, cb)
+RegisterNUICallback('RobMoney', function(data)
     TriggerServerEvent("police:server:RobPlayer", data.TargetId)
-    cb('ok')
 end)
 
-RegisterNUICallback('Notify', function(data, cb)
+RegisterNUICallback('Notify', function(data)
     QBCore.Functions.Notify(data.message, data.type)
-    cb('ok')
 end)
 
-RegisterNUICallback('GetWeaponData', function(cData, cb)
+RegisterNUICallback('GetWeaponData', function(data, cb)
     local data = {
-        WeaponData = QBCore.Shared.Items[cData.weapon],
-        AttachmentData = FormatWeaponAttachments(cData.ItemData)
+        WeaponData = QBCore.Shared.Items[data.weapon],
+        AttachmentData = FormatWeaponAttachments(data.ItemData)
     }
     cb(data)
 end)
@@ -707,15 +1195,17 @@ end)
 RegisterNUICallback('RemoveAttachment', function(data, cb)
     local ped = PlayerPedId()
     local WeaponData = QBCore.Shared.Items[data.WeaponData.name]
+    local label = QBCore.Shared.Items
     local Attachment = WeaponAttachments[WeaponData.name:upper()][data.AttachmentData.attachment]
+
     QBCore.Functions.TriggerCallback('weapons:server:RemoveAttachment', function(NewAttachments)
         if NewAttachments ~= false then
             local Attachies = {}
             RemoveWeaponComponentFromPed(ped, GetHashKey(data.WeaponData.name), GetHashKey(Attachment.component))
-            for _, v in pairs(NewAttachments) do
-                for _, pew in pairs(WeaponAttachments[WeaponData.name:upper()]) do
+            for k, v in pairs(NewAttachments) do
+                for wep, pew in pairs(WeaponAttachments[WeaponData.name:upper()]) do
                     if v.component == pew.component then
-                        local item = pew.item
+                        item = pew.item
                         Attachies[#Attachies+1] = {
                             attachment = pew.item,
                             label = QBCore.Shared.Items[item].label,
@@ -739,7 +1229,7 @@ RegisterNUICallback('getCombineItem', function(data, cb)
     cb(QBCore.Shared.Items[data.item])
 end)
 
-RegisterNUICallback("CloseInventory", function(_, cb)
+RegisterNUICallback("CloseInventory", function()
     if currentOtherInventory == "none-inv" then
         CurrentDrop = nil
         CurrentVehicle = nil
@@ -766,27 +1256,25 @@ RegisterNUICallback("CloseInventory", function(_, cb)
     end
     SetNuiFocus(false, false)
     inInventory = false
-    cb('ok')
 end)
 
-RegisterNUICallback("UseItem", function(data, cb)
+RegisterNUICallback("UseItem", function(data)
     TriggerServerEvent("inventory:server:UseItem", data.inventory, data.item)
-    cb('ok')
 end)
 
-RegisterNUICallback("combineItem", function(data, cb)
+RegisterNUICallback("combineItem", function(data)
     Wait(150)
     TriggerServerEvent('inventory:server:combineItem', data.reward, data.fromItem, data.toItem)
-    cb('ok')
 end)
 
-RegisterNUICallback('combineWithAnim', function(data, cb)
+RegisterNUICallback('combineWithAnim', function(data)
     local ped = PlayerPedId()
     local combineData = data.combineData
     local aDict = combineData.anim.dict
     local aLib = combineData.anim.lib
     local animText = combineData.anim.text
     local animTimeout = combineData.anim.timeOut
+
     QBCore.Functions.Progressbar("combine_anim", animText, animTimeout, false, true, {
         disableMovement = false,
         disableCarMovement = true,
@@ -803,25 +1291,21 @@ RegisterNUICallback('combineWithAnim', function(data, cb)
         StopAnimTask(ped, aDict, aLib, 1.0)
         QBCore.Functions.Notify("Failed!", "error")
     end)
-    cb('ok')
 end)
 
-RegisterNUICallback("SetInventoryData", function(data, cb)
+RegisterNUICallback("SetInventoryData", function(data)
     TriggerServerEvent("inventory:server:SetInventoryData", data.fromInventory, data.toInventory, data.fromSlot, data.toSlot, data.fromAmount, data.toAmount)
-    cb('ok')
 end)
 
-RegisterNUICallback("PlayDropSound", function(_, cb)
+RegisterNUICallback("PlayDropSound", function()
     PlaySound(-1, "CLICK_BACK", "WEB_NAVIGATION_SOUNDS_PHONE", 0, 0, 1)
-    cb('ok')
 end)
 
-RegisterNUICallback("PlayDropFail", function(_, cb)
+RegisterNUICallback("PlayDropFail", function()
     PlaySound(-1, "Place_Prop_Fail", "DLC_Dmod_Prop_Editor_Sounds", 0, 0, 1)
-    cb('ok')
 end)
 
-RegisterNUICallback("GiveItem", function(data, cb)
+RegisterNUICallback("GiveItem", function(data)
     local player, distance = QBCore.Functions.GetClosestPlayer(GetEntityCoords(PlayerPedId()))
     if player ~= -1 and distance < 3 then
         if (data.inventory == 'player') then
@@ -834,7 +1318,6 @@ RegisterNUICallback("GiveItem", function(data, cb)
     else
         QBCore.Functions.Notify("No one nearby!", "error")
     end
-    cb('ok')
 end)
 
 -- Threads
@@ -897,6 +1380,7 @@ CreateThread(function()
     end
 end)
 
+
 CreateThread(function()
     if Config.UseTarget then
         exports['qb-target']:AddTargetModel(Config.CraftingObject, {
@@ -933,6 +1417,195 @@ CreateThread(function()
             Wait(sleep)
         end
     end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.FoodCraftingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.FoodCraftingLocation.x, Config.FoodCraftingLocation.y, Config.FoodCraftingLocation.z, "~g~E~w~ - Cook")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Cooking"
+					crafting.items = GetFoodThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "food_crafting", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.WeedCuttingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.WeedCuttingLocation.x, Config.WeedCuttingLocation.y, Config.WeedCuttingLocation.z, "~g~E~w~ - Schneiden")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Schneide"
+					crafting.items = GetCutThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "weed_cutting", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.WeedDryingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.WeedDryingLocation.x, Config.WeedDryingLocation.y, Config.WeedDryingLocation.z, "~g~E~w~ - Trocknen")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Trockne"
+					crafting.items = GetDryThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "weed_drying", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.WeedPackingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.WeedPackingLocation.x, Config.WeedPackingLocation.y, Config.WeedPackingLocation.z, "~g~E~w~ - Abpacken")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Abpacken"
+					crafting.items = GetPackThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "weed_packing", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.WeedRollingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.WeedRollingLocation.x, Config.WeedRollingLocation.y, Config.WeedRollingLocation.z, "~g~E~w~ - Joints Drehen")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Drehen"
+					crafting.items = GetRollThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "weed_rolling", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.PizzaBackingLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.PizzaBackingLocation.x, Config.PizzaBackingLocation.y, Config.PizzaBackingLocation.z, "~g~E~w~ - Pizzaofen")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Pizzaofen"
+					crafting.items = GetBackThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "pizza_backing", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.GoldBroilerLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.GoldBroilerLocation.x, Config.GoldBroilerLocation.y, Config.GoldBroilerLocation.z, "~g~E~w~ - Hähnchengrill")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Hähnchengrill"
+					crafting.items = GetBroilerThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "gold_broiler", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
 end)
 
 CreateThread(function()
