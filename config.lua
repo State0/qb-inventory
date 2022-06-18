@@ -416,6 +416,200 @@ Config.WeedRolling = {
     }
 }
 
+Config.MedBayLocation = vector3(-493.48, -340.73, 42.32)
+
+Config.MedBay = {
+    ["items"] = {
+        [1] = {
+            name = "epipen",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezepte"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+        [2] = {
+            name = "bandage",
+            amount = 200,
+            info = {},
+            costs = {
+                ["rezeptb"] = 1,
+            },
+            type = "item",
+            slot = 2,
+            threshold = 0,
+            points = 1,
+        },
+        [3] = {
+            name = "painkillers",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezeptp"] = 1,
+            },
+            type = "item",
+            slot = 3,
+            threshold = 0,
+            points = 1,
+        },
+        [4] = {
+            name = "pills",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezepta"] = 1,
+            },
+            type = "item",
+            slot = 4,
+            threshold = 0,
+            points = 1,
+        },
+        [5] = {
+            name = "morphium",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezeptm"] = 1,
+            },
+            type = "item",
+            slot = 5,
+            threshold = 0,
+            points = 1,
+        },
+        [6] = {
+            name = "ifaks",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezepti"] = 1,
+            },
+            type = "item",
+            slot = 6,
+            threshold = 0,
+            points = 1,
+        },
+        [7] = {
+            name = "oxy",
+            amount = 50,
+            info = {},
+            costs = {
+                ["rezepto"] = 1,
+            },
+            type = "item",
+            slot = 7,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.BloodWorkLocation = vector3(-465.32, -294.8, 34.91)
+
+Config.BloodWork = {
+    ["items"] = {
+        [1] = {
+            name = "bloodpackabp",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+        [2] = {
+            name = "bloodpackabn",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 2,
+            threshold = 0,
+            points = 1,
+        },
+        [3] = {
+            name = "bloodpackap",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 3,
+            threshold = 0,
+            points = 1,
+        },
+        [4] = {
+            name = "bloodpackan",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 4,
+            threshold = 0,
+            points = 1,
+        },
+        [5] = {
+            name = "bloodpackbp",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 5,
+            threshold = 0,
+            points = 1,
+        },
+        [6] = {
+            name = "bloodpackbn",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 6,
+            threshold = 0,
+            points = 1,
+        },
+        [7] = {
+            name = "bloodpack0p",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 7,
+            threshold = 0,
+            points = 1,
+        },
+        [8] = {
+            name = "bloodpack0n",
+            amount = 50,
+            info = {},
+            costs = {
+                ["bloodpackl"] = 1,
+            },
+            type = "item",
+            slot = 8,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
 Config.PizzaBackingLocation = vector3(419.49, -1502.07, 30.16)
 
 Config.PizzaBacking = {

@@ -376,6 +376,75 @@ local function ItemsToBackInfo()
 	Config.PizzaBacking["items"] = items
 end
 
+local function ItemsToBackInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [2] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [3] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [4] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [5] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [6] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [7] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+        [8] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
+   }
+
+	local items = {}
+	for k, item in pairs(Config.BloodWork["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.BloodWork["items"] = items
+end
+
+local function ItemsToBackInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["rezepte"]["label"] .. ": 1x. "},
+        [2] = {costs = QBCore.Shared.Items["rezeptb"]["label"] .. ": 1x. "},
+        [3] = {costs = QBCore.Shared.Items["rezeptp"]["label"] .. ": 1x. "},
+        [4] = {costs = QBCore.Shared.Items["rezepta"]["label"] .. ": 1x. "},
+        [5] = {costs = QBCore.Shared.Items["rezeptm"]["label"] .. ": 1x. "},
+        [6] = {costs = QBCore.Shared.Items["rezepti"]["label"] .. ": 1x. "},
+        [7] = {costs = QBCore.Shared.Items["rezepto"]["label"] .. ": 1x. "},
+   }
+
+	local items = {}
+	for k, item in pairs(Config.MedBay["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.MedBay["items"] = items
+end
+
 local function ItemsBroilerInfo()
 	itemInfos = {
 		[1] = {costs = QBCore.Shared.Items["haehnchen"]["label"] .. ": 1x. "},
@@ -525,6 +594,28 @@ local function GetBackThresholdItems()
 	for k, item in pairs(Config.PizzaBacking["items"]) do
 		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.PizzaBacking["items"][k].threshold then
 			items[k] = Config.PizzaBacking["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetBackThresholdItems()
+	ItemsToBackInfo()
+	local items = {}
+	for k, item in pairs(Config.BloodWork["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.BloodWork["items"][k].threshold then
+			items[k] = Config.BloodWork["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetBackThresholdItems()
+	ItemsToBackInfo()
+	local items = {}
+	for k, item in pairs(Config.MedBay["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.MedBay["items"][k].threshold then
+			items[k] = Config.MedBay["items"][k]
 		end
 	end
 	return items
@@ -842,6 +933,60 @@ RegisterNetEvent('inventory:client:BackePizza', function(itemName, itemCosts, am
 	}, {}, {}, function() -- Done
 		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
         TriggerServerEvent("inventory:server:BackePizza", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:BloodWork', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Entnehme Blut..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:BloodWork", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:MedBay', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Löse Rezept ein..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:MedBay", itemName, itemCosts, amount, toSlot, points)
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
         isCrafting = false
 	end, function() -- Cancel
@@ -1569,6 +1714,60 @@ CreateThread(function()
 					crafting.label = "Pizzaofen"
 					crafting.items = GetBackThresholdItems()
 					TriggerServerEvent("inventory:server:OpenInventory", "pizza_backing", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.BloodWorkLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.BloodWorkLocation.x, Config.BloodWorkLocation.y, Config.BloodWorkLocation.z, "~g~E~w~ - Blutspende")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Blutspene"
+					crafting.items = GetBackThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "blood_working", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.MedBayLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.MedBayLocation.x, Config.MedBayLocation.y, Config.MedBayLocation.z, "~g~E~w~ - Apotheke")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Apotheke"
+					crafting.items = GetBackThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "med_bay", math.random(1, 99), crafting)
 				end
 			end
 		end
