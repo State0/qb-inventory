@@ -376,7 +376,7 @@ local function ItemsToBackInfo()
 	Config.PizzaBacking["items"] = items
 end
 
-local function ItemsToBackInfo()
+local function ItemsToBloodInfo()
 	itemInfos = {
 		[1] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
         [2] = {costs = QBCore.Shared.Items["bloodpackl"]["label"] .. ": 1x. "},
@@ -411,7 +411,7 @@ local function ItemsToBackInfo()
 	Config.BloodWork["items"] = items
 end
 
-local function ItemsToBackInfo()
+local function ItemsToMedInfo()
 	itemInfos = {
 		[1] = {costs = QBCore.Shared.Items["rezepte"]["label"] .. ": 1x. "},
         [2] = {costs = QBCore.Shared.Items["rezeptb"]["label"] .. ": 1x. "},
@@ -599,8 +599,8 @@ local function GetBackThresholdItems()
 	return items
 end
 
-local function GetBackThresholdItems()
-	ItemsToBackInfo()
+local function GetBloodThresholdItems()
+	ItemsToBloodInfo()
 	local items = {}
 	for k, item in pairs(Config.BloodWork["items"]) do
 		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.BloodWork["items"][k].threshold then
@@ -610,8 +610,8 @@ local function GetBackThresholdItems()
 	return items
 end
 
-local function GetBackThresholdItems()
-	ItemsToBackInfo()
+local function GetMedThresholdItems()
+	ItemsToMedInfo()
 	local items = {}
 	for k, item in pairs(Config.MedBay["items"]) do
 		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.MedBay["items"][k].threshold then
@@ -1739,7 +1739,7 @@ CreateThread(function()
 				if IsControlJustPressed(0, 38) then
 					local crafting = {}
 					crafting.label = "Blutspene"
-					crafting.items = GetBackThresholdItems()
+					crafting.items = GetBloodThresholdItems()
 					TriggerServerEvent("inventory:server:OpenInventory", "blood_working", math.random(1, 99), crafting)
 				end
 			end
@@ -1766,7 +1766,7 @@ CreateThread(function()
 				if IsControlJustPressed(0, 38) then
 					local crafting = {}
 					crafting.label = "Apotheke"
-					crafting.items = GetBackThresholdItems()
+					crafting.items = GetMedThresholdItems()
 					TriggerServerEvent("inventory:server:OpenInventory", "med_bay", math.random(1, 99), crafting)
 				end
 			end
