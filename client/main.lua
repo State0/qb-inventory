@@ -1186,11 +1186,12 @@ RegisterCommand('inventory', function()
                 local vehicle = QBCore.Functions.GetClosestVehicle()
                 if vehicle ~= 0 and vehicle ~= nil then
                     local pos = GetEntityCoords(ped)
-                    local trunkpos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -2.5, 0)
+                    local dimensionMin, dimensionMax = GetModelDimensions(GetEntityModel(vehicle))
+		    local trunkpos = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, (dimensionMin.y), 0.0)
                     if (IsBackEngine(GetEntityModel(vehicle))) then
-                        trunkpos = GetOffsetFromEntityInWorldCoords(vehicle, 0, 2.5, 0)
+                        trunkpos = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, (dimensionMax.y), 0.0)
                     end
-                    if #(pos - trunkpos) < 2.0 and not IsPedInAnyVehicle(ped) then
+                    if #(pos - trunkpos) < 1.5 and not IsPedInAnyVehicle(ped) then
                         if GetVehicleDoorLockStatus(vehicle) < 2 then
                             CurrentVehicle = QBCore.Functions.GetPlate(vehicle)
                             curVeh = vehicle
