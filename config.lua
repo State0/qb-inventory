@@ -610,6 +610,49 @@ Config.BloodWork = {
     }
 }
 
+Config.MoonshineLocation = vector3(-293.1, 2528.19, 74.57)
+
+Config.Moonshine = {
+    ["items"] = {
+        [1] = {
+            name = "moonshine",
+            amount = 50,
+            info = {},
+            costs = {
+                ["corn"] = 5,
+                ["shinebottle"] = 1,
+                ["hefe"] = 2,
+                ["destwater"] = 1,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
+Config.BrewLocation = vector3(-57.3, 6433.22, 33.16)
+
+Config.Brew = {
+    ["items"] = {
+        [1] = {
+            name = "statebrau",
+            amount = 50,
+            info = {},
+            costs = {
+                ["hopfen"] = 3,
+                ["beerbottle"] = 1,
+                ["water_bottle"] = 2,
+            },
+            type = "item",
+            slot = 1,
+            threshold = 0,
+            points = 1,
+        },
+    }
+}
+
 Config.PizzaBackingLocation = vector3(419.49, -1502.07, 30.16)
 
 Config.PizzaBacking = {

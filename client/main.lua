@@ -445,6 +445,62 @@ local function ItemsToMedInfo()
 	Config.MedBay["items"] = items
 end
 
+local function ItemsToMoonshineInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["corn"]["label"] .. ": 5x, " ..QBCore.Shared.Items["shinebottle"]["label"] .. ": 1x, " ..QBCore.Shared.Items["hefe"]["label"] .. ": 2x, " ..QBCore.Shared.Items["destwater"]["label"] .. ": 1x. "},
+   }
+
+	local items = {}
+	for k, item in pairs(Config.Moonshine["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.Moonshine["items"] = items
+end
+
+local function ItemsToBrewInfo()
+	itemInfos = {
+		[1] = {costs = QBCore.Shared.Items["hopfen"]["label"] .. ": 3x, " ..QBCore.Shared.Items["beerbottle"]["label"] .. ": 1x, " ..QBCore.Shared.Items["water_bottle"]["label"] .. ": 2x. "},
+   }
+
+	local items = {}
+	for k, item in pairs(Config.Brew["items"]) do
+		local itemInfo = QBCore.Shared.Items[item.name:lower()]
+		items[item.slot] = {
+			name = itemInfo["name"],
+			amount = tonumber(item.amount),
+			info = itemInfos[item.slot],
+			label = itemInfo["label"],
+			description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+			weight = itemInfo["weight"],
+			type = itemInfo["type"],
+			unique = itemInfo["unique"],
+			useable = itemInfo["useable"],
+			image = itemInfo["image"],
+			slot = item.slot,
+			costs = item.costs,
+			threshold = item.threshold,
+			points = item.points,
+		}
+	end
+	Config.Brew["items"] = items
+end
+
 local function ItemsBroilerInfo()
 	itemInfos = {
 		[1] = {costs = QBCore.Shared.Items["haehnchen"]["label"] .. ": 1x. "},
@@ -616,6 +672,28 @@ local function GetMedThresholdItems()
 	for k, item in pairs(Config.MedBay["items"]) do
 		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.MedBay["items"][k].threshold then
 			items[k] = Config.MedBay["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetMoonshineThresholdItems()
+	ItemsToMoonshineInfo()
+	local items = {}
+	for k, item in pairs(Config.Moonshine["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.Moonshine["items"][k].threshold then
+			items[k] = Config.Moonshine["items"][k]
+		end
+	end
+	return items
+end
+
+local function GetBrewThresholdItems()
+	ItemsToBrewInfo()
+	local items = {}
+	for k, item in pairs(Config.Brew["items"]) do
+		if QBCore.Functions.GetPlayerData().metadata["craftingrep"] >= Config.Brew["items"][k].threshold then
+			items[k] = Config.Brew["items"][k]
 		end
 	end
 	return items
@@ -987,6 +1065,60 @@ RegisterNetEvent('inventory:client:MedBay', function(itemName, itemCosts, amount
 	}, {}, {}, function() -- Done
 		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
         TriggerServerEvent("inventory:server:MedBay", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:Moonshine', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Brenne Moonshine..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:Moonshine", itemName, itemCosts, amount, toSlot, points)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
+        isCrafting = false
+	end, function() -- Cancel
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        QBCore.Functions.Notify("Failed", "error")
+        isCrafting = false
+	end)
+end)
+
+RegisterNetEvent('inventory:client:Brew', function(itemName, itemCosts, amount, toSlot, points)
+    local ped = PlayerPedId()
+    SendNUIMessage({
+        action = "close",
+    })
+    isCrafting = true
+    QBCore.Functions.Progressbar("repair_vehicle", "Braue Bier..", (math.random(2000, 5000) * amount), false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {
+		animDict = "mini@repair",
+		anim = "fixing_a_player",
+		flags = 16,
+	}, {}, {}, function() -- Done
+		StopAnimTask(ped, "mini@repair", "fixing_a_player", 1.0)
+        TriggerServerEvent("inventory:server:Brew", itemName, itemCosts, amount, toSlot, points)
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'add')
         isCrafting = false
 	end, function() -- Cancel
@@ -1769,6 +1901,60 @@ CreateThread(function()
 					crafting.label = "Apotheke"
 					crafting.items = GetMedThresholdItems()
 					TriggerServerEvent("inventory:server:OpenInventory", "med_bay", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.MoonshineLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.MoonshineLocation.x, Config.MoonshineLocation.y, Config.MoonshineLocation.z, "~g~E~w~ - Destille")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Destille"
+					crafting.items = GetMoonshineThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "moonshine_bay", math.random(1, 99), crafting)
+				end
+			end
+		end
+
+		if not inRange then
+			Wait(1000)
+		end
+
+		Wait(3)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		local pos = GetEntityCoords(PlayerPedId())
+		local inRange = false
+		local distance = #(pos - vector3(Config.BrewLocation))
+
+		if distance < 10 then
+			inRange = true
+			if distance < 1.5 then
+				DrawText3Ds(Config.BrewLocation.x, Config.BrewLocation.y, Config.BrewLocation.z, "~g~E~w~ - Brauerei")
+				if IsControlJustPressed(0, 38) then
+					local crafting = {}
+					crafting.label = "Brauerei"
+					crafting.items = GetBrewThresholdItems()
+					TriggerServerEvent("inventory:server:OpenInventory", "brew_bay", math.random(1, 99), crafting)
 				end
 			end
 		end

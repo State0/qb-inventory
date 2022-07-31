@@ -689,6 +689,34 @@ RegisterNetEvent('inventory:server:MedBay', function(itemName, itemCosts, amount
 	end
 end)
 
+RegisterNetEvent('inventory:server:Moonshine', function(itemName, itemCosts, amount, toSlot, points)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local amount = tonumber(amount)
+	if itemName ~= nil and itemCosts ~= nil then
+		for k, v in pairs(itemCosts) do
+			Player.Functions.RemoveItem(k, (v*amount))
+		end
+		Player.Functions.AddItem(itemName, amount, toSlot)
+		Player.Functions.SetMetaData("craftingrep", Player.PlayerData.metadata["craftingrep"]+(points*amount))
+		TriggerClientEvent("inventory:client:UpdatePlayerInventory", src, false)
+	end
+end)
+
+RegisterNetEvent('inventory:server:Brew', function(itemName, itemCosts, amount, toSlot, points)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local amount = tonumber(amount)
+	if itemName ~= nil and itemCosts ~= nil then
+		for k, v in pairs(itemCosts) do
+			Player.Functions.RemoveItem(k, (v*amount))
+		end
+		Player.Functions.AddItem(itemName, amount, toSlot)
+		Player.Functions.SetMetaData("craftingrep", Player.PlayerData.metadata["craftingrep"]+(points*amount))
+		TriggerClientEvent("inventory:client:UpdatePlayerInventory", src, false)
+	end
+end)
+
 RegisterNetEvent('inventory:server:GoldBroiler', function(itemName, itemCosts, amount, toSlot, points)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
@@ -933,6 +961,18 @@ RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
 				secondInv.maxweight = 900000
 				secondInv.inventory = other.items
 				secondInv.slots = #other.items
+			elseif name == "moonshine_bay" then
+				secondInv.name = "moonshine_bay"
+				secondInv.label = other.label
+				secondInv.maxweight = 900000
+				secondInv.inventory = other.items
+				secondInv.slots = #other.items
+			elseif name == "brew_bay" then
+				secondInv.name = "brew_bay"
+				secondInv.label = other.label
+				secondInv.maxweight = 900000
+				secondInv.inventory = other.items
+				secondInv.slots = #other.items
 			elseif name == "gold_broiler" then
 				secondInv.name = "gold_broiler"
 				secondInv.label = other.label
@@ -1062,7 +1102,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 	fromSlot = tonumber(fromSlot)
 	toSlot = tonumber(toSlot)
 
-	if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting" or toInventory == "food_crafting" or toInventory == "weed_cutting" or toInventory == "weed_drying" or toInventory == "weed_packing" or toInventory == "weed_rolling" or toInventory == "pizza_backing" or toInventory == "blood_working" or toInventory == "med_bay" or toInventory == "gold_broiler") then
+	if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting" or toInventory == "food_crafting" or toInventory == "weed_cutting" or toInventory == "weed_drying" or toInventory == "weed_packing" or toInventory == "weed_rolling" or toInventory == "pizza_backing" or toInventory == "blood_working" or toInventory == "med_bay" or toInventory == "moonshine_bay" or toInventory == "brew_bay" or toInventory == "gold_broiler") then
 		return
 	end
 
@@ -1585,6 +1625,22 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 		else
 			TriggerClientEvent("inventory:client:UpdatePlayerInventory", src, true)
 			TriggerClientEvent('QBCore:Notify', src, "Du hast kein gültiges Rezept..", "error")
+		end
+	elseif fromInventory == "moonshine_bay" then
+		local itemData = Config.Moonshine["items"][fromSlot]
+		if hasCraftItems(src, itemData.costs, fromAmount) then
+			TriggerClientEvent("inventory:client:Moonshine", src, itemData.name, itemData.costs, fromAmount, toSlot, itemData.points)
+		else
+			TriggerClientEvent("inventory:client:UpdatePlayerInventory", src, true)
+			TriggerClientEvent('QBCore:Notify', src, "Du hast keine oder nicht alle Zutaten..", "error")
+		end
+	elseif fromInventory == "brew_bay" then
+		local itemData = Config.Brew["items"][fromSlot]
+		if hasCraftItems(src, itemData.costs, fromAmount) then
+			TriggerClientEvent("inventory:client:Brew", src, itemData.name, itemData.costs, fromAmount, toSlot, itemData.points)
+		else
+			TriggerClientEvent("inventory:client:UpdatePlayerInventory", src, true)
+			TriggerClientEvent('QBCore:Notify', src, "Du hast keine oder nicht alle Zutaten..", "error")
 		end
 	elseif fromInventory == "gold_broiler" then
 		local itemData = Config.GoldBroiler["items"][fromSlot]
